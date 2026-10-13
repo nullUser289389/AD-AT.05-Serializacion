@@ -10,9 +10,11 @@ import java.util.ArrayList;
 
 public class SerializadorAgenda {
 
-    public boolean guardarPropietario(Propietario propietario, Path ruta){
+    int n = 0;
+
+    public boolean guardarPropietario(Propietario propietario){
         boolean estado = true;
-        try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(ruta.toFile()))){
+        try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("datos/propietario.dat"))){
             oos.writeObject(propietario);
         } catch (IOException ioe) {
             estado = false;
@@ -21,9 +23,11 @@ public class SerializadorAgenda {
         return estado;
     }
 
-    public boolean guardarContacto(Contacto contacto, Path ruta){
+    public boolean guardarContacto(Contacto contacto){
         boolean estado = true;
-        try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(ruta.toFile()))){
+        n++;
+        try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("datos/exportados/contacto_<\n" +
+                "" + n + ">.dat"))){
             oos.writeObject(contacto);
         }catch (IOException ioe){
             estado = false;
@@ -33,8 +37,10 @@ public class SerializadorAgenda {
     }
 
     public boolean guardarListaContactos(ArrayList<Contacto> listaContactos){
-        try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream())){
-
-        }catch ()
+        try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("datos/agenda.dat"))){
+            oos.writeObject(listaContactos);
+        }catch (IOException ioe){
+            System.out.println("[!]Excepcion capturada al guardar lista de contactos ==> " + ioe.getMessage());
+        }
     }
 }
